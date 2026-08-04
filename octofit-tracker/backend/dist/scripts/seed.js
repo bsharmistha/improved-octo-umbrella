@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const models_1 = require("../models");
 const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 /**
- * Seed the octofit_db database with starter test data for users, teams,
+ * Seed the octofit_db database with test data for users, teams,
  * activities, leaderboard entries, and workouts.
  */
 async function seedDatabase() {
