@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const models_1 = require("../models");
 const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
+/**
+ * Seed the octofit_db database with starter test data for users, teams,
+ * activities, leaderboard entries, and workouts.
+ */
 async function seedDatabase() {
     try {
         await mongoose_1.default.connect(connectionString);
@@ -57,12 +61,13 @@ async function seedDatabase() {
             { title: 'Hill Repeats', focus: 'endurance', duration: 35, difficulty: 'challenging', equipment: ['water bottle'] }
         ]);
         console.log('Database seeding complete');
+    }
+    finally {
         await mongoose_1.default.disconnect();
     }
-    catch (error) {
-        console.error('Error seeding database:', error);
-        process.exit(1);
-    }
 }
-seedDatabase();
+seedDatabase().catch((error) => {
+    console.error('Error seeding database:', error);
+    process.exit(1);
+});
 //# sourceMappingURL=seed.js.map

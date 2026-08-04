@@ -70,11 +70,12 @@ async function seedDatabase() {
     ]);
 
     console.log('Database seeding complete');
+  } finally {
     await mongoose.disconnect();
-  } catch (error) {
-    console.error('Error seeding database:', error);
-    process.exit(1);
   }
 }
 
-seedDatabase();
+seedDatabase().catch((error) => {
+  console.error('Error seeding database:', error);
+  process.exit(1);
+});
