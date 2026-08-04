@@ -1,7 +1,9 @@
 const getApiBaseUrl = (path = '') => {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
-  const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev/api${path}`
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim() || import.meta.env.CODESPACE_NAME?.trim() || import.meta.env.CODESPACE?.trim();
+  const host = window.location.hostname;
+  const isCodespaceHost = host.includes('app.github.dev') || host.includes('github.dev');
+  const baseUrl = codespaceName || isCodespaceHost
+    ? `https://${codespaceName || host.replace(/-5173$/, '')}-8000.app.github.dev/api${path}`
     : `http://localhost:8000/api${path}`;
 
   return baseUrl;

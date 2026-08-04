@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { fetchJson } from '../api';
 
 function Teams() {
   const [items, setItems] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchJson('/teams')
-      .then((data) => setItems(data))
+    const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim() || import.meta.env.CODESPACE_NAME?.trim() || import.meta.env.CODESPACE?.trim();
+    const apiBase = codespaceName
+      ? `https://${codespaceName}-8000.app.github.dev/api/teams`
+      : 'http://localhost:8000/api/teams';
+
+    fetch(apiBase)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed with ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => setItems(Array.isArray(data) ? data : data.results || data.items || []))
       .catch((err) => setError(err.message));
   }, []);
 

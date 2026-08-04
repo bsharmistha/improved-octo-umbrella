@@ -6,6 +6,11 @@ import Users from './components/Users';
 import Workouts from './components/Workouts';
 
 function Home() {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim() || import.meta.env.CODESPACE_NAME?.trim() || import.meta.env.CODESPACE?.trim();
+  const apiHint = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/...`
+    : 'http://localhost:8000/api/...';
+
   return (
     <div className="container py-5">
       <div className="p-4 rounded bg-light shadow-sm">
@@ -14,8 +19,7 @@ function Home() {
           A modern multi-tier fitness dashboard for students, teams, and activities.
         </p>
         <p className="mb-0">
-          Set <code>VITE_CODESPACE_NAME</code> in <code>.env.local</code> to use the Codespaces API URL.
-          If it is not defined, the app falls back to localhost.
+          The app will use <code>{apiHint}</code> for API calls.
         </p>
       </div>
     </div>
